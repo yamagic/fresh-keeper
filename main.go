@@ -1,16 +1,22 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"net/http"
+	"fresh-keeper/controller"
+	"fresh-keeper/db"
+	"fresh-keeper/repository"
+	"fresh-keeper/router"
+	"fresh-keeper/usecase"
 )
 
 func main() {
-	e := echo.New()
+	db := db.NewDB()
+	userRepository := repository.NewUserRepository(db)
 
-	e.GET("/", func(c echo.Context) error {
-			return c.String(http.StatusOK, "Hello, World!")
-	})
+	userUsecase := usecase.NewUserUsecase(userRepository, userValidator)
+
+	userController := controller.NewUserController(userUsecase)
+
+	e := router.NewRouter(userController)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
