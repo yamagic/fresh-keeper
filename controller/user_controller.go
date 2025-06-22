@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fresh-keeper/models"
-	"fresh-keeper/usecase"
+	"expiry_tracker/models"
+	"expiry_tracker/usecase"
 	"net/http"
 	"os"
 	"time"

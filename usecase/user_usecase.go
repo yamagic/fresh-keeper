@@ -3,8 +3,8 @@ package usecase
 import (
 	"crypto/bcrypt"
 	"errors"
-	"fresh-keeper/models"
-	"fresh-keeper/repository"
+	"expiry_tracker/models"
+	"expiry_tracker/repository"
 	"os"
 	"time"
 

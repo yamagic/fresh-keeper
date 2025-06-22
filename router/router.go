@@ -1,7 +1,8 @@
 package router 
 
 import (
-	"fresh-keeper/controller"
+	"expiry_tracker/controller"
+	"github.com/labstack/echo/v4"
 )
 
 func NewRouter(uc controller.IUserController) *echo.Echo {
