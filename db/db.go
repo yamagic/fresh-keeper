@@ -26,13 +26,10 @@ func NewDB() *gorm.DB {
 		os.Getenv("POSTGRES_DB"),
 	)
 	
-	fmt.Printf("Connecting to database: %s\n", url)
-	
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("Connected to database successfully")
 	return db
 }
 
