@@ -15,7 +15,7 @@ type User struct {
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }
 
-type UserReponse struct {
+type UserResponse struct {
 	ID        uint   `json:"id"`
 	Email     string `json:"email"`
 	Name      string `json:"name"`

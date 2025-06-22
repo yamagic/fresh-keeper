@@ -14,7 +14,7 @@ func NewDB() *gorm.DB {
 	if os.Getenv("GO_ENV") == "dev" {
 		err := godotenv.Load()
 		if err != nil {
-			log.Fatalln(err)
+			log.Printf("Warning: .env file not found: %v", err)
 		}
 	}
 	url := fmt.Sprintf(
@@ -25,11 +25,14 @@ func NewDB() *gorm.DB {
 		os.Getenv("POSTGRES_PORT"),
 		os.Getenv("POSTGRES_DB"),
 	)
+	
+	fmt.Printf("Connecting to database: %s\n", url)
+	
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("Connected")
+	fmt.Println("Connected to database successfully")
 	return db
 }
 

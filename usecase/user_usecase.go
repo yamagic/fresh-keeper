@@ -1,19 +1,19 @@
 package usecase
 
 import (
-	"crypto/bcrypt"
 	"errors"
-	"expiry_tracker/models"
+	"expiry_tracker/model"
 	"expiry_tracker/repository"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type IUserUsecase interface {
-	SignUp(user *models.User) (models.UserResponse, error)
-	Login(user *models.User) (string, error)
+	SignUp(user *model.User) (model.UserResponse, error)
+	Login(user *model.User) (string, error)
 }
 
 type userUsecase struct {
@@ -24,23 +24,23 @@ func NewUserUsecase(ur repository.IUserRepository) IUserUsecase {
 	return &userUsecase{ur: ur}
 }
 
-func (uu *userUsecase) SignUp(user *models.User) (models.UserResponse, error) {
+func (uu *userUsecase) SignUp(user *model.User) (model.UserResponse, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 	if err != nil {
-		return models.UserResponse{}, err
+		return model.UserResponse{}, err
 	}
 	
-	newUser := models.User{
+	newUser := model.User{
 		Email:    user.Email, 
 		Password: string(hash), 
 		Name:     user.Name,
 	}
 	
 	if err := uu.ur.CreateUser(&newUser); err != nil {
-		return models.UserResponse{}, err
+		return model.UserResponse{}, err
 	}
 	
-	resUser := models.UserResponse{
+	resUser := model.UserResponse{
 		ID:    newUser.ID,
 		Email: newUser.Email, 
 		Name:  newUser.Name,
@@ -49,8 +49,8 @@ func (uu *userUsecase) SignUp(user *models.User) (models.UserResponse, error) {
 	return resUser, nil
 }
 
-func (uu *userUsecase) Login(user *models.User) (string, error) {
-	storedUser := models.User{}
+func (uu *userUsecase) Login(user *model.User) (string, error) {
+	storedUser := model.User{}
 	if err := uu.ur.GetUserByEmail(&storedUser, user.Email); err != nil {
 		return "", errors.New("user not found")
 	}

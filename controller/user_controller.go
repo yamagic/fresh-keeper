@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"expiry_tracker/models"
+	"expiry_tracker/model"
 	"expiry_tracker/usecase"
 	"net/http"
 	"os"
@@ -25,7 +25,7 @@ func NewUserController(uu usecase.IUserUsecase) IUserController {
 }
 
 func (uc *userController) SignUp(c echo.Context) error {
-	user := models.User{}
+	user := model.User{}
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -39,7 +39,7 @@ func (uc *userController) SignUp(c echo.Context) error {
 }
 
 func (uc *userController) Login(c echo.Context) error {
-	user := models.User{}
+	user := model.User{}
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

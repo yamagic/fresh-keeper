@@ -24,9 +24,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/expiry_tracker?sslmode=disable
-      JWT_SECRET: your-secret-key-change-this
+      GO_ENV: dev
+      POSTGRES_USER: postgres
+      POSTGRES_PW: postgres
+      POSTGRES_DB: expiry_tracker
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: db
+      SECRET: uu5pveql
       PORT: 8080
+      API_DOMAIN: localhost
     depends_on:
       - db
     networks:
