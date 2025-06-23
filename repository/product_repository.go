@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"fmt"
+	"errors"
 	"expiry_tracker/model"
+	"fmt"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -25,14 +26,14 @@ func NewProductRepository(db *gorm.DB) IProductRepository {
 }
 
 func (pr *productRepository) GetAllProducts(products *[]model.Product, userId uint) error {
-	if err := pr.Joins(User).Where("user_id = ?", userId).Order("created_at").Find(products).Error; err != nil {
+	if err := pr.db.Joins("User").Where("user_id = ?", userId).Order("created_at").Find(products).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 func (pr *productRepository) GetProductById(product *model.Product, userId uint, productId uint) error {
-	if err := pr.db.Joins(User).Where("user_id = ?").First(product, productID).Error; err != nil {
+	if err := pr.db.Joins("User").Where("user_id = ?").First(product, productId).Error; err != nil {
 		return err
 	}
 	return nil
@@ -46,12 +47,12 @@ func (pr *productRepository) CreateProduct(product *model.Product) error {
 }
 
 func (pr *productRepository) UpdateProduct(product *model.Product, userId uint, productId uint) error {
-	result := pr.db.Model(User).Clauses(clause.Returning{}).Where("user_id = ? AND id = ?", userId, productId).Updates(product)
+	result := pr.db.Model("User").Clauses(clause.Returning{}).Where("user_id = ? AND id = ?", userId, productId).Updates(product)
 	if result.Error != nil {
 		return result.Error
 	}
 	if result.RowsAffected == 0 {
-		return errors.New("product not found")
+		return fmt.Errorf("object does not exist")
 	}
 	return nil
 }
