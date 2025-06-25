@@ -15,7 +15,7 @@ func NewRouter(uc controller.IUserController, pc controller.IProductController) 
 	e.POST("/logout", uc.LogOut)
 	p := e.Group("/products")
 	p.Use(echojwt.WithConfig(echojwt.Config{
-		SigningKey:  []byte(os.Getenv("SECRET_KEY")),
+		SigningKey:  []byte(os.Getenv("SECRET")),
 		TokenLookup: "cookie:token",
 	}))
 	p.GET("", pc.GetAllProducts)

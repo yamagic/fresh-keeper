@@ -33,7 +33,7 @@ func (pr *productRepository) GetAllProducts(products *[]model.Product, userId ui
 }
 
 func (pr *productRepository) GetProductById(product *model.Product, userId uint, productId uint) error {
-	if err := pr.db.Joins("User").Where("user_id = ?").First(product, productId).Error; err != nil {
+	if err := pr.db.Joins("User").Where("user_id = ?", userId).First(product, productId).Error; err != nil {
 		return err
 	}
 	return nil
