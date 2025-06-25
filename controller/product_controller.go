@@ -60,7 +60,7 @@ func (pc *productController) CreateProduct(c echo.Context) error {
 	if err := c.Bind(&product); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	product.UserID = uint(userId.(float64))
+	product.UserId = uint(userId.(float64))
 	productRes, err := pc.pu.CreateProduct(product)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())

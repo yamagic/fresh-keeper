@@ -2,13 +2,14 @@ package model
 
 import (
 	"time"
+
 	"gorm.io/gorm"
 )
 
 type Product struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
-	UserID      uint           `json:"user_id" gorm:"not null"`
-	User        User           `json:"user" gorm:"foreignKey:UserID"`
+	UserId      uint           `json:"user_id" gorm:"not null"`
+	User        User           `json:"user" gorm:"foreignKey:UserId"`
 	Name        string         `json:"name" gorm:"not null"`
 	Description string         `json:"description"`
 	Quantity    int            `json:"quantity" gorm:"default:1"`
@@ -22,9 +23,13 @@ type Product struct {
 
 type ExpiryType string
 
+const (
+	ExpiryTypeBestBefore ExpiryType = "best_before" // 賞味期限
+	ExpiryTypeUseBy      ExpiryType = "use_by"      // 消費期限
+)
+
 type ProductResponse struct {
 	ID          uint       `json:"id"`
-	UserID      uint       `json:"user_id"`
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Quantity    int        `json:"quantity"`
