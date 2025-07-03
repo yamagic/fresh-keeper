@@ -3,6 +3,7 @@ package usecase
 import (
 	"expiry_tracker/model"
 	"expiry_tracker/repository"
+	"expiry_tracker/validator"
 )
 
 type IProductUsecase interface {
@@ -15,10 +16,11 @@ type IProductUsecase interface {
 
 type productUsecase struct {
 	pr repository.IProductRepository
+	uv validator.IProductValidator
 }
 
-func NewProductUsecase(pr repository.IProductRepository) IProductUsecase {
-	return &productUsecase{pr: pr}
+func NewProductUsecase(pr repository.IProductRepository, uv validator.IProductValidator) IProductUsecase {
+	return &productUsecase{pr: pr, uv: uv}
 }
 
 func (pu *productUsecase) GetAllProducts(userId uint) ([]model.ProductResponse, error) {
@@ -70,6 +72,9 @@ func (pu *productUsecase) GetProductByID(userId uint, productId uint) (model.Pro
 }
 
 func (pu *productUsecase) CreateProduct(product model.Product) (model.ProductResponse, error) {
+	if err := pu.uv.ProductValidate(product); err != nil {
+		return model.ProductResponse{}, err
+	}
 	if err := pu.pr.CreateProduct(&product); err != nil {
 		return model.ProductResponse{}, err
 	}
@@ -90,6 +95,9 @@ func (pu *productUsecase) CreateProduct(product model.Product) (model.ProductRes
 }
 
 func (pu *productUsecase) UpdateProduct(product model.Product, userId uint, productId uint) (model.ProductResponse, error) {
+	if err := pu.uv.ProductValidate(product); err != nil {
+		return model.ProductResponse{}, err
+	}
 	if err := pu.pr.UpdateProduct(&product, userId, productId); err != nil {
 		return model.ProductResponse{}, err
 	}
