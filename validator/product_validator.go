@@ -37,9 +37,5 @@ func (pv *productValidator) ProductValidate(product model.Product) error {
 			validation.Required.Error("type is required"),
 			validation.In(model.ExpiryTypeBestBefore, model.ExpiryTypeUseBy).Error("invalid type"),
 		),
-		validation.Field(
-			&product.IsNotified,
-			validation.Required.Error("is notified is required"),
-		),
 	)
 }
