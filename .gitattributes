@@ -1,0 +1,12 @@
+# フロントエンドディレクトリをGitHubの言語統計から除外
+fresh-keeper-frontend/* linguist-vendored
+
+# TypeScriptファイルを言語統計から除外
+*.ts linguist-vendored
+*.tsx linguist-vendored
+
+# その他のフロントエンド関連ファイルも除外
+*.json linguist-vendored
+*.css linguist-vendored
+*.html linguist-vendored
+package*.json linguist-vendored
