@@ -1,5 +1,10 @@
+import { useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline, Container, AppBar, Toolbar, Typography, Box } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import { QueryProvider } from '@/providers';
+import { AppRouter } from '@/router';
+import { useAuthStore } from '@/stores';
+import { apiClient } from '@/services';
 
 // Material-UIのテーマを作成（日本語フォント対応）
 const theme = createTheme({
@@ -24,44 +29,46 @@ const theme = createTheme({
 });
 
 function App() {
+  const { initialize, isInitialized } = useAuthStore();
+
+  // アプリ初期化
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        // CSRFトークンの初期化
+        await apiClient.initializeCsrfToken();
+        
+        // 認証状態の初期化
+        await initialize();
+      } catch (error) {
+        console.error('App initialization error:', error);
+        // エラーでも初期化完了とする
+      }
+    };
+
+    initializeApp();
+  }, [initialize]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ flexGrow: 1 }}>
-        {/* ヘッダー */}
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              🍎 Fresh Keeper
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        
-        {/* メインコンテンツ */}
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            新鮮な食材を管理しよう
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Fresh Keeperは、食材の賞味期限を追跡し、食品廃棄を減らすお手伝いをします。
-          </Typography>
-          
-          <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              🚀 開発中...
-            </Typography>
-            <Typography variant="body2">
-              現在、以下の機能を開発中です：
-            </Typography>
-            <ul>
-              <li>ユーザー登録・ログイン機能</li>
-              <li>食材の登録・管理機能</li>
-              <li>賞味期限アラート機能</li>
-              <li>レスポンシブデザイン</li>
-            </ul>
-          </Box>
-        </Container>
-      </Box>
+      <QueryProvider>
+        {isInitialized ? (
+          <AppRouter />
+        ) : (
+          // 初期化中の表示（シンプルなローディング）
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '100vh',
+            fontSize: '1.2rem',
+            color: '#666'
+          }}>
+            🍎 Fresh Keeper を起動中...
+          </div>
+        )}
+      </QueryProvider>
     </ThemeProvider>
   );
 }
