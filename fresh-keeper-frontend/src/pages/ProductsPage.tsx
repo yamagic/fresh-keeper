@@ -9,7 +9,7 @@ import { AddRounded } from '@mui/icons-material';
 import { ProductList, LoadingSpinner, ErrorMessage, ConfirmDialog } from '@/components';
 import { useNotifications } from '@/stores';
 import { productService } from '@/services';
-import { ProductResponse } from '@/types';
+import type { ProductResponse } from '@/types/models';
 import { ROUTES } from '@/router';
 
 export default function ProductsPage() {

@@ -8,7 +8,7 @@ import { ArrowBackRounded } from '@mui/icons-material';
 import { ProductForm } from '@/components';
 import { useNotifications } from '@/stores';
 import { productService } from '@/services';
-import { ProductFormData } from '@/types';
+import type { ProductFormData } from '@/types/forms';
 import { ROUTES } from '@/router';
 
 export default function AddProductPage() {

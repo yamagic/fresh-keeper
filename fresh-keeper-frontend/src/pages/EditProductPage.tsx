@@ -9,7 +9,8 @@ import { ArrowBackRounded } from '@mui/icons-material';
 import { ProductForm, LoadingSpinner, ErrorMessage } from '@/components';
 import { useNotifications } from '@/stores';
 import { productService } from '@/services';
-import { ProductResponse, ProductFormData } from '@/types';
+import type { ProductResponse } from '@/types/models';
+import type { ProductFormData } from '@/types/forms';
 import { ROUTES } from '@/router';
 
 export default function EditProductPage() {

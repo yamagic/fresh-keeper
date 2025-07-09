@@ -31,7 +31,7 @@ import {
 import { LoadingSpinner, ErrorMessage, AlertChip } from '@/components';
 import { useAuth, useNotifications } from '@/stores';
 import { productService } from '@/services';
-import { ProductResponse } from '@/types';
+import type { ProductResponse } from '@/types/models';
 import { ROUTES } from '@/router';
 
 export default function DashboardPage() {

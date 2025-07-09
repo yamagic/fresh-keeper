@@ -5,24 +5,23 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Paper, Box, Typography, Button } from '@mui/material';
 import { LoginForm } from '@/components';
-import { useAuth, useNotifications } from '@/stores';
-import { LoginFormData } from '@/types';
+import { useAuthStore } from '@/stores';
+import type { LoginFormData } from '@/types/forms';
 import { ROUTES } from '@/router';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, isLoading, error, clearError } = useAuth();
-  const { showSuccess, showError } = useNotifications();
+  const { login, isLoading, error, clearError } = useAuthStore();
 
   const handleSubmit = async (data: LoginFormData) => {
     try {
       clearError();
       await login(data.email, data.password);
       
-      showSuccess('ログイン成功', 'Fresh Keeperへようこそ！');
+      console.log('ログイン成功');
       navigate(ROUTES.DASHBOARD);
     } catch (error: any) {
-      showError('ログインエラー', error.message || 'ログインに失敗しました');
+      console.error('ログインエラー:', error.message || 'ログインに失敗しました');
     }
   };
 

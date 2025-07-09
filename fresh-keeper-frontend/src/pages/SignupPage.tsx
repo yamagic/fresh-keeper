@@ -6,7 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Container, Paper, Box, Typography, Button } from '@mui/material';
 import { SignupForm } from '@/components';
 import { useAuth, useNotifications } from '@/stores';
-import { SignupFormData } from '@/types';
+import type { SignupFormData } from '@/types/forms';
 import { ROUTES } from '@/router';
 
 export default function SignupPage() {

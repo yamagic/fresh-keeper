@@ -9,7 +9,7 @@ import { ArrowBackRounded, EditRounded, DeleteRounded } from '@mui/icons-materia
 import { ProductDetail, LoadingSpinner, ErrorMessage, ConfirmDialog } from '@/components';
 import { useNotifications } from '@/stores';
 import { productService } from '@/services';
-import { ProductResponse } from '@/types';
+import type { ProductResponse } from '@/types/models';
 import { ROUTES, getRouteParam } from '@/router';
 
 export default function ProductDetailPage() {
