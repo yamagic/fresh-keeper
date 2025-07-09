@@ -4,7 +4,7 @@
  */
 
 import { z } from 'zod';
-import { ExpiryType } from './models';
+import type { ExpiryType } from './models';
 
 // ===== バリデーションスキーマ（Zod） =====
 

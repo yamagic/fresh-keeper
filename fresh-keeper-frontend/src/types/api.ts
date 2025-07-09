@@ -3,7 +3,7 @@
  * HTTPリクエスト・レスポンス、エラーハンドリング関連
  */
 
-import { UserResponse, ProductResponse } from './models';
+import type { UserResponse, ProductResponse } from './models';
 
 // ===== 共通API型 =====
 

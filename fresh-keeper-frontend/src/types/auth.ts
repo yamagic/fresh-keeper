@@ -3,7 +3,7 @@
  * Zustand状態管理、CSRF、JWT認証対応
  */
 
-import { UserResponse } from './models';
+import type { UserResponse } from './models';
 
 // ===== 認証状態型 =====
 

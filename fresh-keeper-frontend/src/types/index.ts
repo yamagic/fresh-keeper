@@ -5,18 +5,13 @@
 
 // ===== 基本データモデル =====
 export type {
-  // 基本型
   ExpiryType,
   AlertLevel,
   AlertConfig,
-  
-  // ユーザー関連
   User,
   UserResponse,
   UserRegisterData,
   UserLoginData,
-  
-  // 製品関連
   Product,
   ProductResponse,
   ProductCreateData,
@@ -27,24 +22,17 @@ export { EXPIRY_TYPE_LABELS } from './models';
 
 // ===== API通信関連 =====
 export type {
-  // 共通API型
   ApiResponse,
   ApiError,
   Pagination,
   PaginatedResponse,
-  
-  // 認証API
   LoginResponse,
   CsrfTokenResponse,
-  
-  // 製品API
   ProductListResponse,
   ProductDetailResponse,
   ProductCreateResponse,
   ProductUpdateResponse,
   ProductDeleteResponse,
-  
-  // API設定
   ApiConfig,
   HttpMethod,
   ApiRequestConfig,
