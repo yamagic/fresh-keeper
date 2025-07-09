@@ -42,7 +42,10 @@ function App() {
         await initialize();
       } catch (error) {
         console.error('App initialization error:', error);
-        // エラーでも初期化完了とする
+        // バックエンドが起動していない場合でも初期化完了とする
+      } finally {
+        // 初期化は完了とマークする
+        // （エラーの場合でも画面を表示させる）
       }
     };
 

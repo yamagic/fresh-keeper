@@ -148,7 +148,11 @@ export default function AppRouter() {
         {/* デフォルトルート */}
         <Route 
           path="/" 
-          element={<Navigate to="/dashboard" replace />} 
+          element={
+            <ProtectedRoute>
+              <Navigate to="/dashboard" replace />
+            </ProtectedRoute>
+          } 
         />
 
         {/* 404 ページ */}
