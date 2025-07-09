@@ -4,7 +4,9 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AuthState, UserResponse, AUTH_CONSTANTS } from '@/types';
+import type { AuthState } from '@/types/auth';
+import type { UserResponse } from '@/types/models';
+import { AUTH_CONSTANTS } from '@/types/auth';
 import { authService } from '@/services';
 
 interface AuthStore extends AuthState {

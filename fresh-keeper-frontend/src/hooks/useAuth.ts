@@ -6,7 +6,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '@/services';
 import { useAuthStore, useNotifications } from '@/stores';
-import { LoginFormData, UserRegisterData, QUERY_KEYS } from '@/types';
+import type { LoginFormData } from '@/types/forms';
+import type { UserRegisterData } from '@/types/models';
+import { QUERY_KEYS } from '@/types/api';
 import { ROUTES } from '@/router';
 
 /**

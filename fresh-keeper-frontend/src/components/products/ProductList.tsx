@@ -18,7 +18,7 @@ import {
   Stack,
 } from '@mui/material';
 import { SearchRounded, SortRounded } from '@mui/icons-material';
-import { ProductResponse } from '@/types';
+import type { ProductResponse } from '@/types/models';
 import ProductCard from './ProductCard';
 import { LoadingSpinner, ErrorMessage } from '@/components/common';
 

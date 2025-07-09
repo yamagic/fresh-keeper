@@ -9,7 +9,7 @@ import {
   ErrorRounded, 
   BlockRounded 
 } from '@mui/icons-material';
-import { AlertLevel } from '@/types';
+import type { AlertLevel } from '@/types';
 
 interface AlertChipProps {
   /** 残り日数 */

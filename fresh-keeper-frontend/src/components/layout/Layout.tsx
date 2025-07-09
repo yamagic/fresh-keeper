@@ -5,7 +5,7 @@
 import { useState, ReactNode } from 'react';
 import { Box, Container, Fab, Zoom } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
-import { UserResponse } from '@/types';
+import type { UserResponse } from '@/types/models';
 import Header from './Header';
 import Sidebar from './Sidebar';
 

@@ -21,13 +21,9 @@ import {
   Chip,
 } from '@mui/material';
 import { SaveRounded } from '@mui/icons-material';
-import { 
-  ProductFormData, 
-  productFormSchema, 
-  EXPIRY_TYPE_OPTIONS,
-  QUANTITY_OPTIONS,
-  EXPIRY_TYPE_LABELS,
-} from '@/types';
+import type { ProductFormData } from '@/types/forms';
+import { productFormSchema, EXPIRY_TYPE_OPTIONS, QUANTITY_OPTIONS } from '@/types/forms';
+import { EXPIRY_TYPE_LABELS } from '@/types/models';
 
 interface ProductFormProps {
   /** フォーム送信時の処理 */

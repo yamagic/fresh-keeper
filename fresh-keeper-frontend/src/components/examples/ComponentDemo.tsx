@@ -24,7 +24,8 @@ import {
   ProductList,
   Layout,
 } from '@/components';
-import { ProductResponse, LoginFormData, SignupFormData, ProductFormData } from '@/types';
+import type { ProductResponse } from '@/types/models';
+import type { LoginFormData, SignupFormData, ProductFormData } from '@/types/forms';
 
 // ===== モックデータ =====
 

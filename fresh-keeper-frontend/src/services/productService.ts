@@ -3,17 +3,15 @@
  */
 
 import { apiClient } from './apiClient';
-import {
-  ProductResponse,
-  ProductCreateData,
-  ProductUpdateData,
+import type { ProductResponse, ProductCreateData, ProductUpdateData } from '@/types/models';
+import type { 
   ProductListResponse,
   ProductDetailResponse,
   ProductCreateResponse,
   ProductUpdateResponse,
-  ProductDeleteResponse,
-  API_ENDPOINTS,
-} from '@/types';
+  ProductDeleteResponse
+} from '@/types/api';
+import { API_ENDPOINTS } from '@/types/api';
 
 export class ProductService {
   /**

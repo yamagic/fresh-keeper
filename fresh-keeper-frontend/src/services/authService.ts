@@ -3,14 +3,10 @@
  */
 
 import { apiClient } from './apiClient';
-import {
-  LoginFormData,
-  UserRegisterData,
-  LoginResponse,
-  UserResponse,
-  ApiResponse,
-  API_ENDPOINTS,
-} from '@/types';
+import type { LoginFormData } from '@/types/forms';
+import type { UserRegisterData, UserResponse } from '@/types/models';
+import type { LoginResponse, ApiResponse } from '@/types/api';
+import { API_ENDPOINTS } from '@/types/api';
 
 export class AuthService {
   /**
@@ -83,10 +79,9 @@ export class AuthService {
       // この実装はバックエンドに /me エンドポイントがある場合
       // 現在のバックエンドにはないので、ログイン状態の確認は別の方法で行う
       
-      // 仮実装：製品一覧を取得して認証状態を確認
-      await apiClient.get('/products');
-      
-      // 実際のユーザー情報はログイン時に取得してZustandに保存する方式
+      // バックエンドに専用のエンドポイントがないため、
+      // ログイン時に保存したユーザー情報を使用する
+      // 実際の認証状態確認は必要に応じて製品一覧などのAPIで行う
       return null;
     } catch (error) {
       console.error('Get current user error:', error);

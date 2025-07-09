@@ -24,7 +24,7 @@ import {
   SettingsRounded,
   AddRounded,
 } from '@mui/icons-material';
-import { UserResponse } from '@/types';
+import type { UserResponse } from '@/types/models';
 
 interface HeaderProps {
   /** ログイン中のユーザー情報 */

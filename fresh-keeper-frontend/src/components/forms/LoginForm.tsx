@@ -17,7 +17,8 @@ import {
   Alert,
 } from '@mui/material';
 import { VisibilityRounded, VisibilityOffRounded } from '@mui/icons-material';
-import { LoginFormData, loginFormSchema } from '@/types';
+import type { LoginFormData } from '@/types/forms';
+import { loginFormSchema } from '@/types/forms';
 
 interface LoginFormProps {
   /** フォーム送信時の処理 */

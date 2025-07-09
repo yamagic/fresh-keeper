@@ -20,7 +20,8 @@ import {
 } from '@mui/icons-material';
 import { format, differenceInDays } from 'date-fns';
 import { ja } from 'date-fns/locale';
-import { ProductResponse, EXPIRY_TYPE_LABELS } from '@/types';
+import type { ProductResponse } from '@/types/models';
+import { EXPIRY_TYPE_LABELS } from '@/types/models';
 import { AlertChip } from '@/components/common';
 
 interface ProductCardProps {

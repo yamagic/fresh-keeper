@@ -2,8 +2,9 @@
  * APIクライアント - Axiosを使ったHTTP通信の基盤
  */
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ApiConfig, ApiError, CsrfTokenResponse } from '@/types';
+import axios from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { ApiConfig, ApiError, CsrfTokenResponse } from '@/types/api';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -145,7 +146,7 @@ class ApiClient {
 
 // APIクライアントのシングルトンインスタンスを作成
 const apiConfig: ApiConfig = {
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 30000, // 30秒
   withCredentials: true,
 };

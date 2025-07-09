@@ -5,7 +5,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productService } from '@/services';
 import { useNotifications } from '@/stores';
-import { ProductResponse, ProductCreateData, ProductUpdateData, QUERY_KEYS } from '@/types';
+import type { ProductResponse, ProductCreateData, ProductUpdateData } from '@/types/models';
+import { QUERY_KEYS } from '@/types/api';
 
 /**
  * 製品一覧を取得するフック

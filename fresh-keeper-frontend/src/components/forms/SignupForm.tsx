@@ -18,7 +18,8 @@ import {
   Typography,
 } from '@mui/material';
 import { VisibilityRounded, VisibilityOffRounded } from '@mui/icons-material';
-import { SignupFormData, signupFormSchema } from '@/types';
+import type { SignupFormData } from '@/types/forms';
+import { signupFormSchema } from '@/types/forms';
 
 interface SignupFormProps {
   /** フォーム送信時の処理 */
