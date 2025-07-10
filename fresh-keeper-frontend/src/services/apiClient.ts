@@ -82,8 +82,12 @@ class ApiClient {
   async initializeCsrfToken(): Promise<void> {
     try {
       const response = await this.client.get<CsrfTokenResponse>('/csrf');
-      this.csrfToken = response.data.csrf_token;
-      console.log('CSRF token initialized');
+      
+      if (response.data && response.data.csrf_token) {
+        this.csrfToken = response.data.csrf_token;
+      } else {
+        throw new Error('CSRF token not found in response');
+      }
     } catch (error) {
       console.error('Failed to initialize CSRF token:', error);
       throw error;
@@ -109,8 +113,19 @@ class ApiClient {
    * POSTリクエスト
    */
   async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.client.post(url, data, config);
-    return response.data;
+    try {
+      const response: AxiosResponse<T> = await this.client.post(url, data, config);
+      return response.data;
+    } catch (error: any) {
+      // APIErrorの形式で投げ直す
+      const apiError = {
+        message: error.response?.data?.message || error.message || 'ネットワークエラーが発生しました。接続を確認してください。',
+        status: error.response?.status || 0,
+        errors: error.response?.data?.errors,
+      };
+      
+      throw apiError;
+    }
   }
 
   /**
