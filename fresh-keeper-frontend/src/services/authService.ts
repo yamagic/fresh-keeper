@@ -46,12 +46,19 @@ export class AuthService {
       // バックエンドが空文字列を返す場合の対応
       if (response === '' || response === null || response === undefined) {
         // ログイン成功（レスポンスボディなし）
-        // ダミーのユーザーデータを返す（実際のユーザー情報はクッキーから取得）
-        return {
-          id: 1,
-          email: 'user@example.com',
-          name: 'User'
-        };
+        // JWTクッキーが設定されているので、認証が必要なAPIで確認
+        try {
+          // 製品一覧APIを呼び出して認証状態を確認
+          await apiClient.get('/products');
+          // 認証成功時はログインに使用したemailを使用
+          return {
+            id: 0, // JWTから取得できないため仮のID
+            email: loginData.email,
+            name: loginData.email.split('@')[0] // emailのローカル部分をnameとして使用
+          };
+        } catch (error) {
+          throw new Error('ログイン後の認証確認に失敗しました');
+        }
       }
       
       // JSONレスポンスの場合
