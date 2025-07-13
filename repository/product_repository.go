@@ -47,7 +47,7 @@ func (pr *productRepository) CreateProduct(product *model.Product) error {
 }
 
 func (pr *productRepository) UpdateProduct(product *model.Product, userId uint, productId uint) error {
-	result := pr.db.Model("User").Clauses(clause.Returning{}).Where("user_id = ? AND id = ?", userId, productId).Updates(product)
+	result := pr.db.Model(&model.Product{}).Clauses(clause.Returning{}).Where("user_id = ? AND id = ?", userId, productId).Updates(product)
 	if result.Error != nil {
 		return result.Error
 	}
