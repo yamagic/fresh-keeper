@@ -132,8 +132,26 @@ class ApiClient {
    * PUTリクエスト
    */
   async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.client.put(url, data, config);
-    return response.data;
+    try {
+      const response: AxiosResponse<T> = await this.client.put(url, data, config);
+      return response.data;
+    } catch (error: any) {
+      console.error('PUT request error:', {
+        url,
+        data,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        responseData: error.response?.data,
+        message: error.message
+      });
+      
+      const apiError = {
+        message: error.response?.data?.message || error.message || 'PUTリクエストでエラーが発生しました',
+        status: error.response?.status || 0,
+        errors: error.response?.data?.errors,
+      };
+      throw apiError;
+    }
   }
 
   /**
