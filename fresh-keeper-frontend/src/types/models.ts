@@ -100,14 +100,14 @@ export interface ProductCreateData {
 }
 
 /**
- * 製品更新用のデータ（全フィールドオプション）
+ * 製品更新用のデータ（バックエンドバリデーションに合わせて必須フィールド）
  */
 export interface ProductUpdateData {
-  name?: string;
+  name: string;
   description?: string;
-  quantity?: number;
-  expiry_date?: string;
-  type?: ExpiryType;
+  quantity: number;
+  expiry_date: string; // YYYY-MM-DDTHH:mm:ss.sssZ形式
+  type: ExpiryType;
   is_notified?: boolean;
 }
 
