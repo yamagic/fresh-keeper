@@ -50,6 +50,21 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     }
   };
 
+  // 残り日数を計算
+  const calculateDaysLeft = (expiryDate: string): number => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    
+    // 時間を00:00:00にリセットして日付のみで比較
+    today.setHours(0, 0, 0, 0);
+    expiry.setHours(0, 0, 0, 0);
+    
+    const diffTime = expiry.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays;
+  };
+
   // 残り日数に基づくメッセージ
   const getExpiryMessage = (daysLeft: number): { message: string; color: string } => {
     if (daysLeft < 0) {
@@ -70,7 +85,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     return { message: '十分な期間があります', color: 'success.main' };
   };
 
-  const expiryInfo = getExpiryMessage(product.days_left);
+  const actualDaysLeft = calculateDaysLeft(product.expiry_date);
+  const expiryInfo = getExpiryMessage(actualDaysLeft);
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
@@ -87,7 +103,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {expiryInfo.message}
               </Typography>
             </Box>
-            <AlertChip daysLeft={product.days_left} size="medium" />
+            <AlertChip daysLeft={actualDaysLeft} size="medium" />
           </Box>
 
           {/* 説明文 */}
@@ -144,15 +160,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     <ListItemIcon>
                       <NotificationsRounded />
                     </ListItemIcon>
-                    <ListItemText 
-                      primary="通知状態" 
-                      secondary={
-                        <Chip 
-                          label={product.is_notified ? '通知済み' : '未通知'} 
-                          color={product.is_notified ? 'primary' : 'default'}
-                          size="small"
-                        />
-                      } 
+                    <ListItemText primary="通知状態" />
+                    <Chip 
+                      label={product.is_notified ? '通知済み' : '未通知'} 
+                      color={product.is_notified ? 'primary' : 'default'}
+                      size="small"
                     />
                   </ListItem>
                 </List>
