@@ -19,18 +19,15 @@ export class ProductService {
    */
   async getProducts(): Promise<ProductResponse[]> {
     try {
-      const response = await apiClient.get<ProductListResponse>(
+      const response = await apiClient.get<ProductResponse[]>(
         API_ENDPOINTS.PRODUCTS.LIST
       );
       
-      if (!response.success || !response.data) {
-        throw new Error(response.message || '製品一覧の取得に失敗しました');
-      }
-      
-      return response.data;
+      // バックエンドは直接配列を返すため、そのまま使用
+      return Array.isArray(response) ? response : [];
     } catch (error) {
       console.error('Get products error:', error);
-      throw error;
+      throw new Error('製品一覧の取得に失敗しました');
     }
   }
 
@@ -39,18 +36,15 @@ export class ProductService {
    */
   async getProduct(id: number): Promise<ProductResponse> {
     try {
-      const response = await apiClient.get<ProductDetailResponse>(
+      const response = await apiClient.get<ProductResponse>(
         API_ENDPOINTS.PRODUCTS.DETAIL(id)
       );
       
-      if (!response.success || !response.data) {
-        throw new Error(response.message || '製品詳細の取得に失敗しました');
-      }
-      
-      return response.data;
+      // バックエンドは直接オブジェクトを返すため、そのまま使用
+      return response;
     } catch (error) {
       console.error('Get product error:', error);
-      throw error;
+      throw new Error('製品詳細の取得に失敗しました');
     }
   }
 
@@ -59,19 +53,22 @@ export class ProductService {
    */
   async createProduct(productData: ProductCreateData): Promise<ProductResponse> {
     try {
-      const response = await apiClient.post<ProductCreateResponse>(
+      // 日付をISO形式に変換してバックエンドに送信
+      const formattedData = {
+        ...productData,
+        expiry_date: new Date(productData.expiry_date).toISOString()
+      };
+      
+      const response = await apiClient.post<ProductResponse>(
         API_ENDPOINTS.PRODUCTS.CREATE,
-        productData
+        formattedData
       );
       
-      if (!response.success || !response.data) {
-        throw new Error(response.message || '製品の作成に失敗しました');
-      }
-      
-      return response.data;
+      // バックエンドは直接オブジェクトを返すため、そのまま使用
+      return response;
     } catch (error) {
       console.error('Create product error:', error);
-      throw error;
+      throw new Error('製品の作成に失敗しました');
     }
   }
 
@@ -80,19 +77,22 @@ export class ProductService {
    */
   async updateProduct(id: number, productData: ProductUpdateData): Promise<ProductResponse> {
     try {
-      const response = await apiClient.put<ProductUpdateResponse>(
+      // 日付をISO形式に変換してバックエンドに送信
+      const formattedData = {
+        ...productData,
+        expiry_date: new Date(productData.expiry_date).toISOString()
+      };
+      
+      const response = await apiClient.put<ProductResponse>(
         API_ENDPOINTS.PRODUCTS.UPDATE(id),
-        productData
+        formattedData
       );
       
-      if (!response.success || !response.data) {
-        throw new Error(response.message || '製品の更新に失敗しました');
-      }
-      
-      return response.data;
+      // バックエンドは直接オブジェクトを返すため、そのまま使用
+      return response;
     } catch (error) {
       console.error('Update product error:', error);
-      throw error;
+      throw new Error('製品の更新に失敗しました');
     }
   }
 
@@ -101,16 +101,11 @@ export class ProductService {
    */
   async deleteProduct(id: number): Promise<void> {
     try {
-      const response = await apiClient.delete<ProductDeleteResponse>(
-        API_ENDPOINTS.PRODUCTS.DELETE(id)
-      );
-      
-      if (!response.success) {
-        throw new Error(response.message || '製品の削除に失敗しました');
-      }
+      // バックエンドは削除時に空レスポンスを返す可能性が高い
+      await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id));
     } catch (error) {
       console.error('Delete product error:', error);
-      throw error;
+      throw new Error('製品の削除に失敗しました');
     }
   }
 
