@@ -43,6 +43,21 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // 残り日数を計算
+  const calculateDaysLeft = (expiryDate: string): number => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    
+    // 時間を00:00:00にリセットして日付のみで比較
+    today.setHours(0, 0, 0, 0);
+    expiry.setHours(0, 0, 0, 0);
+    
+    const diffTime = expiry.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays;
+  };
+
   // 製品データの取得
   useEffect(() => {
     fetchProducts();
@@ -66,15 +81,21 @@ export default function DashboardPage() {
   // 統計の計算
   const getStats = () => {
     const total = products.length;
-    const expired = products.filter(p => p.days_left < 0).length;
-    const urgent = products.filter(p => p.days_left >= 0 && p.days_left <= 3).length;
-    const safe = products.filter(p => p.days_left > 3).length;
+    const expired = products.filter(p => calculateDaysLeft(p.expiry_date) < 0).length;
+    const urgent = products.filter(p => {
+      const days = calculateDaysLeft(p.expiry_date);
+      return days >= 0 && days <= 3;
+    }).length;
+    const safe = products.filter(p => calculateDaysLeft(p.expiry_date) > 3).length;
     
     return { total, expired, urgent, safe };
   };
 
   const stats = getStats();
-  const urgentProducts = products.filter(p => p.days_left >= 0 && p.days_left <= 3).slice(0, 5);
+  const urgentProducts = products.filter(p => {
+    const days = calculateDaysLeft(p.expiry_date);
+    return days >= 0 && days <= 3;
+  }).slice(0, 5);
   const recentProducts = products.slice(0, 5);
 
   if (loading) {
@@ -197,8 +218,8 @@ export default function DashboardPage() {
 
         {/* 期限切れ間近の製品 */}
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: '400px' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, pb: 1 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6">🚨 期限切れ間近</Typography>
                 <Chip label={`${urgentProducts.length}件`} color="warning" size="small" />
@@ -212,31 +233,34 @@ export default function DashboardPage() {
                   </Typography>
                 </Box>
               ) : (
-                <List>
-                  {urgentProducts.map((product) => (
-                    <ListItem key={product.id} divider>
-                      <ListItemIcon>
-                        <NotificationsRounded color="warning" />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={product.name}
-                        secondary={`${product.description || ''}`}
-                      />
-                      <AlertChip daysLeft={product.days_left} />
-                    </ListItem>
-                  ))}
-                </List>
+                <Box sx={{ flexGrow: 1, overflow: 'auto', maxHeight: '280px' }}>
+                  <List>
+                    {urgentProducts.map((product) => (
+                      <ListItem key={product.id} divider>
+                        <ListItemIcon>
+                          <NotificationsRounded color="warning" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={product.name}
+                          secondary={`${product.description || ''}`}
+                        />
+                        <AlertChip daysLeft={calculateDaysLeft(product.expiry_date)} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
               )}
               
               {urgentProducts.length > 0 && (
-                <Button 
-                  fullWidth 
-                  variant="outlined"
-                  onClick={() => navigate(ROUTES.PRODUCTS)}
-                  sx={{ mt: 2 }}
-                >
-                  すべて見る
-                </Button>
+                <Box sx={{ mt: 'auto', pt: 2 }}>
+                  <Button 
+                    fullWidth 
+                    variant="outlined"
+                    onClick={() => navigate(ROUTES.PRODUCTS)}
+                  >
+                    すべて見る
+                  </Button>
+                </Box>
               )}
             </CardContent>
           </Card>
@@ -244,8 +268,8 @@ export default function DashboardPage() {
 
         {/* 最近の製品 */}
         <Grid item xs={12} md={6}>
-          <Card sx={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: '400px' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, pb: 1 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6">📦 最近の製品</Typography>
                 <Chip label={`${recentProducts.length}件`} color="primary" size="small" />
@@ -266,28 +290,31 @@ export default function DashboardPage() {
                   </Button>
                 </Box>
               ) : (
-                <List>
-                  {recentProducts.map((product) => (
-                    <ListItem key={product.id} divider>
-                      <ListItemText
-                        primary={product.name}
-                        secondary={`${product.description || ''} - 登録: ${new Date(product.created_at).toLocaleDateString('ja-JP')}`}
-                      />
-                      <AlertChip daysLeft={product.days_left} />
-                    </ListItem>
-                  ))}
-                </List>
+                <Box sx={{ flexGrow: 1, overflow: 'auto', maxHeight: '280px' }}>
+                  <List>
+                    {recentProducts.map((product) => (
+                      <ListItem key={product.id} divider>
+                        <ListItemText
+                          primary={product.name}
+                          secondary={`${product.description || ''} - 登録: ${new Date(product.created_at).toLocaleDateString('ja-JP')}`}
+                        />
+                        <AlertChip daysLeft={calculateDaysLeft(product.expiry_date)} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
               )}
               
               {recentProducts.length > 0 && (
-                <Button 
-                  fullWidth 
-                  variant="outlined"
-                  onClick={() => navigate(ROUTES.PRODUCTS)}
-                  sx={{ mt: 2 }}
-                >
-                  すべて見る
-                </Button>
+                <Box sx={{ mt: 'auto', pt: 2 }}>
+                  <Button 
+                    fullWidth 
+                    variant="outlined"
+                    onClick={() => navigate(ROUTES.PRODUCTS)}
+                  >
+                    すべて見る
+                  </Button>
+                </Box>
               )}
             </CardContent>
           </Card>
