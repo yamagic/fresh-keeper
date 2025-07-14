@@ -17,6 +17,9 @@ export const ROUTES = {
   PRODUCT_NEW: '/products/new',
   PRODUCT_EDIT: (id: number | string) => `/products/${id}/edit`,
   
+  // 設定・アカウント
+  SETTINGS: '/settings',
+  
   // その他
   DEMO: '/demo',
   ROOT: '/',
@@ -31,6 +34,7 @@ export const PAGE_TITLES = {
   [ROUTES.DASHBOARD]: 'ダッシュボード',
   [ROUTES.PRODUCTS]: '製品一覧',
   [ROUTES.PRODUCT_NEW]: '製品を追加',
+  [ROUTES.SETTINGS]: '設定',
   [ROUTES.DEMO]: 'コンポーネントデモ',
 } as const;
 

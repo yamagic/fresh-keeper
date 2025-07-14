@@ -15,6 +15,7 @@ import AddProductPage from '@/pages/AddProductPage';
 import EditProductPage from '@/pages/EditProductPage';
 import LoginPage from '@/pages/LoginPage';
 import SignupPage from '@/pages/SignupPage';
+import SettingsPage from '@/pages/SettingsPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 /**
@@ -134,6 +135,17 @@ export default function AppRouter() {
             <ProtectedRoute>
               <LayoutRoute>
                 <EditProductPage />
+              </LayoutRoute>
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/settings" 
+          element={
+            <ProtectedRoute>
+              <LayoutRoute>
+                <SettingsPage />
               </LayoutRoute>
             </ProtectedRoute>
           } 
