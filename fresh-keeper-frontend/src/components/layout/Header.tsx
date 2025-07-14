@@ -3,6 +3,7 @@
  */
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -25,6 +26,7 @@ import {
   AddRounded,
 } from '@mui/icons-material';
 import type { UserResponse } from '@/types/models';
+import { ROUTES } from '@/router/routes';
 
 interface HeaderProps {
   /** ログイン中のユーザー情報 */
@@ -46,6 +48,7 @@ export default function Header({
   onMenuClick,
   notificationCount = 0,
 }: HeaderProps) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,7 +56,12 @@ export default function Header({
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(anchorEl);
+    setAnchorEl(null);
+  };
+
+  const handleSettings = () => {
+    handleMenuClose();
+    navigate(ROUTES.SETTINGS);
   };
 
   const handleLogout = () => {
@@ -155,7 +163,7 @@ export default function Header({
                 horizontal: 'right',
               }}
             >
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem onClick={handleSettings}>
                 <SettingsRounded sx={{ mr: 1 }} />
                 設定
               </MenuItem>
