@@ -1,34 +1,37 @@
 # Fresh Keeper
 
-食品の賞味期限を追跡するためのフルスタックWebアプリケーション
+食品の賞味期限を追跡するためのフルスタック Web アプリケーション
 
 ## 概要
 
-Fresh Keeperは、食品の在庫管理と賞味期限追跡を行うWebアプリケーションです。ユーザーは食品の賞味期限を効率的に管理し、期限切れ前に適切な通知を受け取ることができます。
+Fresh Keeper は、食品の在庫管理と賞味期限追跡を行う Web アプリケーションです。ユーザーは食品の賞味期限を効率的に管理し、期限切れ前に適切な通知を受け取ることができます。
 
 ## 技術スタック
 
 ### バックエンド
+
 - **Go** (Echo + GORM + PostgreSQL)
-- **JWT認証** & **CSRF保護**
+- **JWT 認証** & **CSRF 保護**
 - **クリーンアーキテクチャ**パターン
 
 ### フロントエンド
+
 - **React 18** + **TypeScript**
 - **Vite** (開発環境)
-- **Material-UI** (UIコンポーネント)
+- **Material-UI** (UI コンポーネント)
 - **React Router** (ルーティング)
 - **React Query** (データフェッチング・キャッシュ)
 - **Zustand** (状態管理)
 - **React Hook Form + Zod** (フォーム管理・バリデーション)
 
 ### インフラ
+
 - **PostgreSQL** (データベース)
 - **Docker + Docker Compose** (コンテナ化)
 
 ## 開発履歴
 
-- **バックエンドAPI**: 手動開発
+- **バックエンド API**: 手動開発
 - **フロントエンド**: Claude Code (claude.ai/code) によって完全に設計・実装
 
 ## 主要機能
@@ -58,13 +61,14 @@ cd fresh-keeper
 `.env`ファイルを作成し、以下の環境変数を設定してください：
 
 ```bash
+# 開発環境用の設定例
 PORT=8080
-POSTGRES_USER=postgres
-POSTGRES_PW=postgres
+POSTGRES_USER=your_username
+POSTGRES_PW=your_password
 POSTGRES_DB=expiry_tracker
 POSTGRES_PORT=5434
 POSTGRES_HOST=localhost
-SECRET=your-jwt-secret-key
+SECRET=your-strong-jwt-secret-key-here
 GO_ENV=dev
 API_DOMAIN=localhost
 FE_URL=http://localhost:5173
@@ -85,7 +89,7 @@ npm run dev
 ### 4. アクセス
 
 - **フロントエンド**: http://localhost:5173
-- **バックエンドAPI**: http://localhost:8080
+- **バックエンド API**: http://localhost:8080
 
 ## アーキテクチャ
 
@@ -108,12 +112,14 @@ components/ stores/
 ## API エンドポイント
 
 ### パブリック
+
 - `POST /signup` - ユーザー登録
 - `POST /login` - ログイン
 - `POST /logout` - ログアウト
-- `GET /csrf` - CSRFトークン取得
+- `GET /csrf` - CSRF トークン取得
 
 ### 認証必須
+
 - `GET /products` - 製品一覧
 - `POST /products` - 製品作成
 - `GET /products/:id` - 製品詳細
@@ -122,7 +128,7 @@ components/ stores/
 
 ## データベース
 
-PostgreSQLを使用し、以下のテーブルで構成：
+PostgreSQL を使用し、以下のテーブルで構成：
 
 - **users** - ユーザー情報
 - **products** - 食品・製品情報
@@ -159,8 +165,8 @@ npm run preview
 
 ## セキュリティ
 
-- **JWT認証** (HTTPOnly Cookie)
-- **CSRF保護** (トークンベース)
-- **CORS設定** (フロントエンド統合)
+- **JWT 認証** (HTTPOnly Cookie)
+- **CSRF 保護** (トークンベース)
+- **CORS 設定** (フロントエンド統合)
 - **型安全性** (TypeScript)
 - **入力検証** (バックエンド・フロントエンド両方)
